@@ -5,9 +5,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'itemList.dart' as globals;
+import 'package:google_fonts/google_fonts.dart';
 
-
-Future<void> main() async{
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MaterialApp(home: const HomePage(), routes: <String, WidgetBuilder>{
     "/HomePage": (BuildContext context) => const HomePage(),
@@ -28,8 +28,6 @@ class HomePage extends StatefulWidget {
 class _HomePage extends State<HomePage> {
   int _selectedIndex = 0;
 
-
-
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -38,155 +36,186 @@ class _HomePage extends State<HomePage> {
 
 // --------------------- for reading JSON file
   List _magicItems = [];
+
   //fetch content from json file
   Future<void> readJson() async {
     final String response =
-    await rootBundle.loadString("assets/magic_items.json");
+        await rootBundle.loadString("assets/magic_items.json");
+
     final data = await json.decode(response);
 
+    //print('${data.runtimeType} : $data');
+
     setState(() {
-      _magicItems = data;
+      _magicItems = data["Magic Items"];
     });
   }
-
 
 //------------------------------ ABOUT PAGE, FIRST TAB INDEX
   @override
   Widget build(BuildContext context) {
-    final List<Widget> _widgetOptions = <
-    Widget
-    >[
-    Container(
-    decoration: const BoxDecoration(
-    //image: DecorationImage(
-   // image: AssetImage("images/d20.jpg"), fit: BoxFit.contain),
-    ),
-    padding: const EdgeInsets.symmetric(horizontal: 20.0),
-    child: ListView(
-    children: const [
-    Text("About Page", textAlign: TextAlign.center),
-    Center(
-
-    child: Text("Hello, welcome to my D&D magic item creator. I wanted"
-    "to make an app to solve a specific problem I've had. First, when making homebrew items for my players, "
-    "I want to have the item in a visual, easily accesible format, so I would make cards with an online generator."
-    "However, it was limited, and the formatting left much to be desired. So I decided to make an app that will record all the data"
-    "for me. Hopefully I will have it able to spit out cards, but at least I can jot down ideas quickly when inspiration strikes. ")
-
-
-    )
-    ]
-    )
-    ),
+    final List<Widget> _widgetOptions = <Widget>[
+      Container(
+          decoration: const BoxDecoration(
+              //image: DecorationImage(
+              // image: AssetImage("images/d20.jpg"), fit: BoxFit.contain),
+              ),
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: ListView(children: [
+            Text(
+              "\nABOUT ME PAGE\n",
+              textAlign: TextAlign.center,
+              style: GoogleFonts.getFont("Cabin",
+                  fontSize: 32, fontWeight: FontWeight.bold),
+            ),
+            Center(
+                child: Container(
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(color: Colors.red),
+                    child: const Text(
+                      "Hello, welcome to my D&D magic item creator. I wanted"
+                      "to make an app to solve a specific problem I've had. First, when making homebrew items for my players, "
+                      "I want to have the item in a visual, easily accesible format, so I would make cards with an online generator."
+                      "However, it was limited, and the formatting left much to be desired. So I decided to make an app that will record all the data"
+                      "for me. Hopefully I will have it able to spit out cards, but at least I can jot down ideas quickly when inspiration strikes. ",
+                      style: TextStyle(color: Colors.white),
+                    )))
+          ])),
 
 //------------------ TAB INDEX SECOND PAGE, HOME ----------------->>
-    Container(
-    decoration: const BoxDecoration(
-    image: DecorationImage(
-    image: AssetImage("images/d20.jpg"), fit: BoxFit.contain),
-    ),
-    padding: const EdgeInsets.symmetric(horizontal: 20.0),
-    child: ListView(
-    children: [
-    Text("Main Menu", textAlign: TextAlign.center),
-    Center(
-    child: Column(
-    mainAxisAlignment: MainAxisAlignment.start,
-    children: <Widget>[
-    const Text("\nMain Menu",
-    style: TextStyle(fontSize: 24.0)),
-    const Divider(
-    height: 20, thickness: 1, color: Colors.blue),
-    IconButton(
-    icon: const Icon(Icons.add, color: Colors.red),
-    iconSize: 70,
-    onPressed: () {
-    Navigator.of(context).pushNamed("/createNew");
-    }),
-    const Text("Create New Item"),
-    IconButton(
-    icon: const Icon(Icons.edit, color: Colors.yellow),
-    iconSize: 70,
-    onPressed: () {
-    Navigator.of(context).pushNamed("/editExisting");
-    }),
-    const Text("Edit Existing Item"),
-    IconButton(
-    icon: const Icon(Icons.folder,
-    color: Colors.orangeAccent),
-    iconSize: 70,
-    onPressed: () {
-    Navigator.of(context).pushNamed("/repository");
-    }),
-    const Text("Item Repository"),
-    ]))
-    ],
-    )),
+      Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage("images/d20.jpg"), fit: BoxFit.contain),
+          ),
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: ListView(
+            children: [
+              Center(
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+
+                  Padding(padding: EdgeInsets.only(top: 20),
+                    child:
+                    Text(
+                      "HOME PAGE",
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.getFont("Cabin",
+                          fontSize: 40, fontWeight: FontWeight.bold, shadows: [Shadow(color: Colors.black12,blurRadius:(5), offset: Offset(5.0,5.0))]),
+                    ),
+                    ),
+
+
+                    Padding(
+                      padding: EdgeInsets.only(top: 40, bottom: 10),
+                      child: ElevatedButton.icon(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.red,
+                        ),
+                        icon: const Icon(Icons.add,
+                            color: Colors.white, size: 70),
+                        onPressed: () {
+                          Navigator.of(context).pushNamed("/createNew");
+                        },
+                        label: Text("Create New Item"),
+                      ),
+                    ),
+
+
+                   //second BUTTON
+                    Padding(
+                      padding: EdgeInsets.only(top: 10, bottom: 10),
+                      child: ElevatedButton.icon(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.red,
+                        ),
+                        icon: const Icon(
+                          Icons.edit,
+                          color: Colors.yellow,
+                          size: 70,
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).pushNamed("/editExisting");
+                        },
+                        label: Text("Edit Existing Item"),
+                      ),
+                    ),
+
+                    //THIRD BUTTON
+                    Padding(
+                        padding: EdgeInsets.only(top: 10, bottom: 10),
+                        child: ElevatedButton.icon(
+
+                          icon: const Icon(
+                            Icons.folder,
+                            color: Colors.orangeAccent,
+                            size: 70,
+                          ),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.red,),
+
+                          onPressed: () {
+                            Navigator.of(context).pushNamed("/repository");
+                          },
+                          label: Text("Item Repository"),
+                        )),
+                  ]))
+            ],
+          )),
 
       // ----------------------- 3RD INDEX, MAGIC ITEM SRD JSON --------------------
       Padding(
         padding: const EdgeInsets.all(20),
         child: Column(children: [
           Text("Magic items from the core rulebooks to give you some ideas!"),
-
           ElevatedButton(child: const Text('Load Data'), onPressed: readJson),
           _magicItems.isNotEmpty
               ? Expanded(
-              child: ListView.builder(
-                  itemCount: _magicItems.length,
-                  itemBuilder: (context, index) {
-                    //example with card
-                    return
-                      (
-                          Container(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text("Name: ${_magicItems[index][0]} "),
-                                Text("Description ${_magicItems[index][1]}"),
-                                const Divider(height: 10, thickness: 3, color: Colors.indigo)
-
-                              ],
-                            ),
-                          )
-
-                      );
-                  }))
+                  child: ListView.builder(
+                      itemCount: _magicItems.length,
+                      itemBuilder: (context, index) {
+                        //example with card
+                        return (Container(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("Name: ${_magicItems[index][0]} "),
+                              Text(
+                                  "Description: ${(_magicItems[index]["Content"])} "),
+                              const Divider(
+                                  height: 10,
+                                  thickness: 3,
+                                  color: Colors.indigo)
+                            ],
+                          ),
+                        ));
+                      }))
               : Container()
         ]),
       )
-
     ];
 
     //END TAB WIDGET LIST ------------------------
 
-
-
-
-
-
     return MaterialApp(
-    home: DefaultTabController(
-    initialIndex: 1,
-    length: 3,
-    child: Scaffold(
-
-    appBar: AppBar(
-
-    title: Text("D&D Magic Item Creator"),
-    bottom: const TabBar(
-    tabs: [
-    Tab(icon: Icon(Icons.info)),
-    Tab(icon: Icon(Icons.home_filled)),
-    Tab(icon: Icon(Icons.folder)),
-    ]),
-
-    backgroundColor: Colors.red),
-
-    body: TabBarView(children: _widgetOptions, ),
-
-    ),
-    /*bottomNavigationBar: BottomNavigationBar(
+        home: DefaultTabController(
+      initialIndex: 1,
+      length: 3,
+      child: Scaffold(
+        appBar: AppBar(
+            title: Text("D&D Magic Item Creator"),
+            bottom: const TabBar(tabs: [
+              Tab(icon: Icon(Icons.info)),
+              Tab(icon: Icon(Icons.home_filled)),
+              Tab(icon: Icon(Icons.folder)),
+            ]),
+            backgroundColor: Colors.red),
+        body: TabBarView(
+          children: _widgetOptions,
+        ),
+      ),
+      /*bottomNavigationBar: BottomNavigationBar(
         items: const[
           BottomNavigationBarItem(
               icon: Icon(Icons.house),
@@ -212,8 +241,7 @@ class _HomePage extends State<HomePage> {
         onTap: _onItemTapped,
 
       ),*/
-    )
-    );
+    ));
   }
 }
 
@@ -261,7 +289,10 @@ class _createNew extends State<createNew> {
   static TextEditingController controller6 = TextEditingController();
 */
   _submit() {
-    Items newSubmisson = new Items(nameCon.text, descCon.text,);
+    Items newSubmisson = new Items(
+      nameCon.text,
+      descCon.text,
+    );
 
     globals.itemList.add(newSubmisson);
   }
@@ -295,16 +326,15 @@ class _createNew extends State<createNew> {
         child: Container(height: 50.0),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () =>
-            setState(() {
-              _submit();
-              FocusManager.instance.primaryFocus?.unfocus();
-              submissionStatus =
+        onPressed: () => setState(() {
+          _submit();
+          FocusManager.instance.primaryFocus?.unfocus();
+          submissionStatus =
               "Item submitted! Please weight as we move you to the next page.";
-              Timer(Duration(seconds: 3), () {
-                Navigator.of(context).pushNamed("/repository");
-              });
-            }),
+          Timer(Duration(seconds: 3), () {
+            Navigator.of(context).pushNamed("/repository");
+          });
+        }),
         tooltip: 'Submit button',
         child: const Icon(Icons.subdirectory_arrow_right_outlined),
       ),
@@ -499,7 +529,6 @@ class _editExisting extends State<editExisting> {
   }
 }
 
-
 //4th page
 class repository extends StatefulWidget {
   const repository({Key? key}) : super(key: key);
@@ -528,16 +557,9 @@ class _repository extends State<repository> {
               itemBuilder: (BuildContext context, int index) {
                 return (ListTile(
                     title: Text(globals.itemList[index].itemName.toString()),
-                    subtitle: Text(
-                        globals.itemList[index].itemDesc.toString())));
+                    subtitle:
+                        Text(globals.itemList[index].itemDesc.toString())));
               },
-
-
-            )
-        )
-    );
+            )));
   }
-
-
 }
-
