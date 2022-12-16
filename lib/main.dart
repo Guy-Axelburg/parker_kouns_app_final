@@ -1,11 +1,15 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'itemList.dart' as globals;
 import 'package:google_fonts/google_fonts.dart';
+
+//D&D MAGIC ITEM REPOSITORY APP
+//BY PARKER KOUNS
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -63,7 +67,7 @@ class _HomePage extends State<HomePage> {
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: ListView(children: [
             Text(
-              "\nABOUT ME PAGE\n",
+              "\nABOUT PAGE\n",
               textAlign: TextAlign.center,
               style: GoogleFonts.getFont("Cabin",
                   fontSize: 32, fontWeight: FontWeight.bold),
@@ -75,7 +79,7 @@ class _HomePage extends State<HomePage> {
                     child: const Text(
                       "Hello, welcome to my D&D magic item creator. I wanted"
                       "to make an app to solve a specific problem I've had. First, when making homebrew items for my players, "
-                      "I want to have the item in a visual, easily accesible format, so I would make cards with an online generator."
+                      "I want to have the item in a visual, easily accessible format, so I would make cards with an online generator."
                       "However, it was limited, and the formatting left much to be desired. So I decided to make an app that will record all the data"
                       "for me. Hopefully I will have it able to spit out cards, but at least I can jot down ideas quickly when inspiration strikes. ",
                       style: TextStyle(color: Colors.white),
@@ -95,17 +99,22 @@ class _HomePage extends State<HomePage> {
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
-
-                  Padding(padding: EdgeInsets.only(top: 20),
-                    child:
-                    Text(
-                      "HOME PAGE",
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.getFont("Cabin",
-                          fontSize: 40, fontWeight: FontWeight.bold, shadows: [Shadow(color: Colors.black12,blurRadius:(5), offset: Offset(5.0,5.0))]),
+                    Padding(
+                      padding: EdgeInsets.only(top: 20),
+                      child: Text(
+                        "HOME PAGE",
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.getFont("Cabin",
+                            fontSize: 40,
+                            fontWeight: FontWeight.bold,
+                            shadows: [
+                              const Shadow(
+                                  color: Colors.black12,
+                                  blurRadius: (5),
+                                  offset: Offset(5.0, 5.0))
+                            ]),
+                      ),
                     ),
-                    ),
-
 
                     Padding(
                       padding: EdgeInsets.only(top: 40, bottom: 10),
@@ -122,8 +131,7 @@ class _HomePage extends State<HomePage> {
                       ),
                     ),
 
-
-                   //second BUTTON
+                    //second BUTTON
                     Padding(
                       padding: EdgeInsets.only(top: 10, bottom: 10),
                       child: ElevatedButton.icon(
@@ -146,15 +154,14 @@ class _HomePage extends State<HomePage> {
                     Padding(
                         padding: EdgeInsets.only(top: 10, bottom: 10),
                         child: ElevatedButton.icon(
-
                           icon: const Icon(
                             Icons.folder,
                             color: Colors.orangeAccent,
                             size: 70,
                           ),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.red,),
-
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.red,
+                          ),
                           onPressed: () {
                             Navigator.of(context).pushNamed("/repository");
                           },
@@ -289,7 +296,7 @@ class _createNew extends State<createNew> {
   static TextEditingController controller6 = TextEditingController();
 */
   _submit() {
-    Items newSubmisson = new Items(
+    Items newSubmisson = Items(
       nameCon.text,
       descCon.text,
     );
@@ -300,18 +307,20 @@ class _createNew extends State<createNew> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Create a new Item")),
+      appBar: AppBar(title: const Text("Create a new Item"), backgroundColor: Colors.red),
       body: Container(
           decoration: const BoxDecoration(
             color: Colors.white,
             image: DecorationImage(
-                image: AssetImage("images/pennquill.jpg"), fit: BoxFit.cover),
+                image: AssetImage("images/pennquill.jpg"), fit: BoxFit.scaleDown, opacity: 99,),
           ),
           padding: EdgeInsets.all(30.0),
           child: Column(children: [
-            Text(submissionStatus),
+            Text(submissionStatus,style: GoogleFonts.getFont("Cabin", fontSize: 36),textAlign: TextAlign.center),
+
             Expanded(child: entry1),
-            Expanded(child: entry2),
+           Expanded(child: entry2),
+            const Text("Submit Button")
 
             /* going to work with just 2 text controllers for right now
             Expanded(child: entry3),
@@ -330,7 +339,7 @@ class _createNew extends State<createNew> {
           _submit();
           FocusManager.instance.primaryFocus?.unfocus();
           submissionStatus =
-              "Item submitted! Please weight as we move you to the next page.";
+              "Item submitted! Please wait as we move you to the next page.";
           Timer(Duration(seconds: 3), () {
             Navigator.of(context).pushNamed("/repository");
           });
@@ -344,46 +353,46 @@ class _createNew extends State<createNew> {
 
   Widget entry1 = Row(
     crossAxisAlignment: CrossAxisAlignment.center,
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    mainAxisAlignment: MainAxisAlignment.center,
     textBaseline: TextBaseline.alphabetic,
     children: <Widget>[
-      const Text("Item Name:"),
+      //const Text("Item Name:"),
       Container(
-          width: 150.0,
+          width: 200.0,
           height: 60.0,
-          padding: EdgeInsets.all(5.0),
-          child: TextField(
-            maxLines: 8, //or null
-            decoration: const InputDecoration.collapsed(
-                border: OutlineInputBorder(), hintText: "Enter your text here"),
+          padding: const EdgeInsets.all(5.0),
+          child: TextField( //or null
+            decoration: const InputDecoration(filled: true, fillColor: Colors.white,
+  border: OutlineInputBorder(), labelText: "Item Name"),
+
             controller: nameCon,
             keyboardType: TextInputType.text,
           ))
     ],
   );
-
 //1st text entry field
-
   Widget entry2 = Row(
     crossAxisAlignment: CrossAxisAlignment.center,
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    mainAxisAlignment: MainAxisAlignment.center,
     textBaseline: TextBaseline.alphabetic,
     children: <Widget>[
-      const Text("Item Description:"),
+      //const Text("Item Description:"),
       Container(
-          width: 150.0,
+          width: 200.0,
           height: 60.0,
           padding: EdgeInsets.all(5.0),
-          child: TextField(
-            decoration: const InputDecoration(
+          child: TextFormField(
+
+            decoration: const InputDecoration(filled: true, fillColor: Colors.white,
               border: OutlineInputBorder(),
-              labelText: "Description ",
+              labelText: "Item Description ",
             ),
             controller: descCon,
             keyboardType: TextInputType.text,
           ))
     ],
   );
+
 
 //2nd text entry field
 
@@ -511,21 +520,21 @@ class _editExisting extends State<editExisting> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text("Edit Existing Item")),
-        body: ListView(
-          children: [
+        appBar: AppBar(title: const Text("Edit Existing Item")),
+        body:
             Container(
-                decoration: const BoxDecoration(
-                    color: Colors.white,
-                    image: DecorationImage(
-                        image: AssetImage("images/construction.jpg"),
-                        fit: BoxFit.fitHeight)),
-                padding: EdgeInsets.all(20.0),
-                child: Column(children: [
-                  Text("Under Construction!"),
-                ]))
-          ],
-        ));
+                decoration:  const BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage("images/construction.jpg")),
+                  color: Colors.white,
+                ),
+                padding: const EdgeInsets.all(20.0),
+                child: Column(children: const [
+                  Text("Under Construction!", textAlign: TextAlign.center, style: TextStyle(fontSize: 36)),
+
+                ])),
+
+        );
   }
 }
 
@@ -537,29 +546,62 @@ class repository extends StatefulWidget {
   _repository createState() => _repository();
 }
 
-//THIS MIGHT NEED TO BE IN A DIFFERENT CLASS??
-//IDK MIGHT BE BETTER OUT HERE ON IT'S OWN
 class _repository extends State<repository> {
+  final _random = Random();
+
+
   @override
+
+
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text("Repository")),
+        appBar: AppBar(
+            title: const Text("Repository"), backgroundColor: Colors.red),
         body: Container(
-            decoration: const BoxDecoration(
-                color: Colors.white,
-                image: DecorationImage(
-                    image: AssetImage("images/scroll.jpg"),
-                    fit: BoxFit.fitWidth)),
+            decoration:  const BoxDecoration(
+                  image: DecorationImage(
+                  image: AssetImage("images/treasure_chest.png"),opacity: 100),
+              color: Colors.white,
+            ),
             padding: const EdgeInsets.all(20.0),
             child: ListView.builder(
-              padding: const EdgeInsets.all(5),
-              itemCount: (globals.itemList.length),
-              itemBuilder: (BuildContext context, int index) {
-                return (ListTile(
-                    title: Text(globals.itemList[index].itemName.toString()),
-                    subtitle:
-                        Text(globals.itemList[index].itemDesc.toString())));
-              },
-            )));
+
+                padding: const EdgeInsets.all(5),
+                itemCount: (globals.itemList.length),
+                itemBuilder: (BuildContext context, int index) {
+               return (
+                   Container(
+                    color:  Colors.primaries[_random.nextInt(Colors.primaries.length)]
+                   [_random.nextInt(9) * 100],
+                   child:ListTile(
+
+                        title: Text(globals.itemList[index].itemName.toString(),
+                            style: GoogleFonts.getFont("Cabin", color:  Colors.primaries[_random.nextInt(Colors.primaries.length)]
+                            [_random.nextInt(9) * 100],)),
+                        subtitle: Text(
+                            globals.itemList[index].itemDesc.toString(),
+                            style: GoogleFonts.getFont("Cabin",color:  Colors.primaries[_random.nextInt(Colors.primaries.length)]
+                            [_random.nextInt(9) * 100], ))))
+               );
+                })),
+      bottomNavigationBar: BottomAppBar(
+        shape: const CircularNotchedRectangle(),
+         color: Colors.red,
+        child: Container(height: 50.0, ),
+      ),
+      floatingActionButton: FloatingActionButton(
+          tooltip: 'Submit button',
+          backgroundColor: Colors.yellow,
+
+          child: const Icon(Icons.home, ),
+
+
+
+        onPressed: () => setState(() {
+            Navigator.of(context).pushNamed("/HomePage");
+          })
+        ), floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+
+    );
   }
 }
